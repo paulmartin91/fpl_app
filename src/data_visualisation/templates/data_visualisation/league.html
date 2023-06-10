@@ -1,0 +1,36 @@
+{% extends 'data_visualisation/main.html' %} 
+
+{% block content %}
+
+<div class="row w-25">
+    <form action="{% url 'league' %}">
+        <div class="form-group my-5">
+            <div class="input-group">
+                <input type="text" class="form-control" name="league_id" placeholder="League ID" aria-label="League ID" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% if league_id > 1000 or league_id != null  %}
+
+<!-- <h1>Current Season Stats for: {{ team_name }}</h1>
+<h3>Manager: {{ manager_name }}</h3>
+<h3>Location: {{ manager_location }}</h3>
+<h3>Team id: #{{ team_id }}</h3>
+<br>
+
+{% for name, graph in data_visualised.items %}
+
+    <div class="my-5">
+        <h2> {{name}} </h2>
+        {{graph|safe}}
+    </div>
+
+{% endfor %} -->
+{% endif %} 
+
+{% endblock content %}
