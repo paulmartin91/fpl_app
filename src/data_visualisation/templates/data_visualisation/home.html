@@ -1,0 +1,13 @@
+{% extends 'data_visualisation/main.html' %} 
+
+{% block content %}
+
+<h1>Welcome to to FPL Analyser tool</h1>
+
+<p>This is a free platform for visualising FPL data from the current season.</p>
+
+{% include "data_visualisation/forms/team-form.html" %}
+
+{% include "data_visualisation/forms/league-form.html" %}
+
+{% endblock content %}

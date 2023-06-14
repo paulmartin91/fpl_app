@@ -1,0 +1,29 @@
+{% extends 'data_visualisation/main.html' %} 
+
+{% block content %}
+
+{% if data_visualised %}
+
+{% for name, graph in data_visualised.items %}
+
+    <div class="my-5">
+        <h2> {{name}} </h2>
+        {{graph|safe}}
+    </div>
+
+{% endfor %}
+
+{% else %}
+
+{% for player in player_list %}
+    <ul>
+        <li>
+            <a href="{% url 'players' %}?player_id={{player.id}}"> {{player.first_name}} {{player.second_name}} </a>
+        </li>
+    </ul>
+
+{% endfor %}
+
+{% endif %}
+
+{% endblock content %}

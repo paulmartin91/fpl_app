@@ -44,6 +44,7 @@ class DataVisualiser():
         html_graph = plot(graph, output_type="div")
         return html_graph
 
+
     def create_team_value_line_graph(self):
         
         df = pd.DataFrame(data=self.raw_data['current'])
@@ -55,3 +56,31 @@ class DataVisualiser():
         return html_graph
 
 
+    def create_player_points_chart(self):
+
+        df = pd.DataFrame(data=self.raw_data['history'])
+
+        points_per_gw = df[["total_points", "round"]]
+        points_per_gw = points_per_gw.groupby("round").sum().reset_index()
+        points_per_gw.loc[:, "total_points"] = points_per_gw["total_points"].cumsum()
+        points_per_gw.set_index("round", inplace=True)
+
+        graph = px.line(points_per_gw).update_layout(xaxis_title="Gameweek", yaxis_title="Points")
+
+        html_graph = plot(graph, output_type="div")
+        return html_graph
+    
+    def goals_vs_xgoals(self):
+
+        df = pd.DataFrame(data=self.raw_data['history'])
+
+        g_vs_xg = df[["goals_scored", "expected_goals", "round"]]
+        g_vs_xg.loc[:, "goals_scored"] = g_vs_xg["goals_scored"].cumsum()
+        g_vs_xg.loc[:, "expected_goals"] = g_vs_xg["expected_goals"].astype(float).cumsum()
+        # points_per_gw = points_per_gw.groupby("round").sum().reset_index()
+        g_vs_xg.set_index("round", inplace=True)
+
+        graph = px.line(g_vs_xg).update_layout(xaxis_title="Gameweek", yaxis_title="Goals/xG")
+        html_graph = plot(graph, output_type="div")
+
+        return html_graph
