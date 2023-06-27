@@ -75,6 +75,9 @@ class DataVisualiser():
         df = pd.DataFrame(data=self.raw_data['history'])
 
         g_vs_xg = df[["goals_scored", "expected_goals", "round"]]
+
+        g_vs_xg['expected_goals'] = pd.to_numeric(g_vs_xg['expected_goals'])
+
         g_vs_xg.loc[:, "goals_scored"] = g_vs_xg["goals_scored"].cumsum()
         g_vs_xg.loc[:, "expected_goals"] = g_vs_xg["expected_goals"].astype(float).cumsum()
         # points_per_gw = points_per_gw.groupby("round").sum().reset_index()

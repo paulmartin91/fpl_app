@@ -1,5 +1,5 @@
 import requests
-
+import pandas as pd
 
 class FPLService():
 
@@ -25,15 +25,29 @@ class FPLService():
     def get_player_list(self):
         res = requests.get('https://fantasy.premierleague.com/api/bootstrap-static/')
         data = res.json()
-        player_data = [
-            {
-                "first_name": player['first_name'],
-                "second_name": player['second_name'],
-                "id": player['id']
-            } for player in data['elements']
-        ]
 
-        return player_data
+        df_players = pd.DataFrame(data=data['elements'])
+        df_teams = pd.DataFrame(data=data['teams'])
+        df_players = df_players.merge(df_teams, left_on='team_code', right_on='code').sort_values(by=['name', 'first_name', 'second_name'])       
+
+        players_grouped = {}
+
+        for index, row in df_players[['first_name', 'second_name', 'id_x', 'name']].iterrows():
+
+            player_object = {
+                "first_name": row['first_name'],
+                "second_name": row['second_name'],
+                "id": row['id_x']
+            }
+
+            if (players_grouped.get(row['name'])):
+                players_grouped[row['name']].append(player_object)
+            else:
+                players_grouped[row['name']] = [player_object]
+
+        return players_grouped
+
+        # return dict(tuple(df_players[['first_name', 'second_name', 'id_x', 'name']].groupby('name')))
    
 
     def get_player_data(self):

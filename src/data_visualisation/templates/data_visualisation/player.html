@@ -15,13 +15,18 @@
 
 {% else %}
 
-{% for player in player_list %}
-    <ul>
-        <li>
-            <a href="{% url 'players' %}?player_id={{player.id}}"> {{player.first_name}} {{player.second_name}} </a>
-        </li>
-    </ul>
+{% for team, players in player_list.items %}
 
+    <h1>{{ team }}</h1>
+
+    {% for player in players %}
+        <ul>
+            <li>
+                <a href="{% url 'players' %}?player_id={{player.id}}"> {{player.first_name}} {{player.second_name}} </a>
+            </li>
+        </ul>
+
+    {% endfor %}
 {% endfor %}
 
 {% endif %}
