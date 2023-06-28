@@ -14,20 +14,25 @@
 {% endfor %}
 
 {% else %}
-
-{% for team, players in player_list.items %}
-
-    <h1>{{ team }}</h1>
-
-    {% for player in players %}
+   
+    {% for team, players in player_list.items %}
+    
+    <p>
+        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapse{{forloop.counter}}" role="button" aria-expanded="false" aria-controls="collapse{{forloop.counter}}">
+          {{team}}
+        </a>
+      </p>
+      <div class="collapse" id="collapse{{forloop.counter}}">
+        {% for player in players %}
         <ul>
             <li>
                 <a href="{% url 'players' %}?player_id={{player.id}}"> {{player.first_name}} {{player.second_name}} </a>
             </li>
         </ul>
-
+        {% endfor %}
+      </div>
+    
     {% endfor %}
-{% endfor %}
 
 {% endif %}
 
